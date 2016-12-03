@@ -5,7 +5,6 @@ import com.dbulgakov.amocrmlogin.model.DTO.response.LoginResponse;
 import com.dbulgakov.amocrmlogin.model.api.ApiInterface;
 import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
-import com.google.gson.Gson;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -19,9 +18,6 @@ public class ModelImpl implements Model {
 
     @Inject
     ApiInterface apiInterface;
-
-    @Inject
-    Gson gson;
 
     @Inject
     @Named(Const.UI_THREAD)
@@ -39,6 +35,13 @@ public class ModelImpl implements Model {
 
     @Override
     public Observable<LoginResponse> performAuth(String username, String userPassword) {
-        return apiInterface.authUser(new LoginRequest(username, userPassword), Const.RESPONSE_TYPE);
+        return apiInterface
+                .authUser(new LoginRequest(username, userPassword), Const.RESPONSE_TYPE)
+                .compose(applySchedulers());
+    }
+
+    @SuppressWarnings("unchecked")
+    private <T> Observable.Transformer<T, T> applySchedulers() {
+        return (Observable.Transformer<T, T>) schedulersTransformer;
     }
 }
