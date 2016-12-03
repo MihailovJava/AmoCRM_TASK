@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public final class ApiModule implements ApiInterface {
+public final class ApiModule {
 
     private ApiModule() {
 
