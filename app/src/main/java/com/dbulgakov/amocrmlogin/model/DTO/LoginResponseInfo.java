@@ -1,4 +1,4 @@
-package com.dbulgakov.amocrmlogin.model.DTO.response;
+package com.dbulgakov.amocrmlogin.model.DTO;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -15,11 +15,16 @@ public class LoginResponseInfo {
     @Expose
     private String apiKey;
 
+    @SerializedName("error")
+    @Expose
+    private String error;
+
+
     @SerializedName("accounts")
     @Expose
     private List<AccountInfoResponse> accounts;
 
-    public boolean isAuthed() {
+    public boolean isAuthCompleted() {
         return auth;
     }
 
@@ -30,4 +35,6 @@ public class LoginResponseInfo {
     public List<AccountInfoResponse> getAccountsList() {
         return accounts;
     }
+
+    public String getError() { return error; }
 }

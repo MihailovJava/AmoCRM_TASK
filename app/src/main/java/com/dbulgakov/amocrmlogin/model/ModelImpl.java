@@ -1,7 +1,6 @@
 package com.dbulgakov.amocrmlogin.model;
 
-import com.dbulgakov.amocrmlogin.model.DTO.request.LoginRequest;
-import com.dbulgakov.amocrmlogin.model.DTO.response.LoginResponse;
+import com.dbulgakov.amocrmlogin.model.DTO.LoginResponse;
 import com.dbulgakov.amocrmlogin.model.api.ApiInterface;
 import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
@@ -34,9 +33,9 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Observable<LoginResponse> performAuth(String username, String userPassword) {
+    public Observable<LoginResponse> performAuth(String userEmail, String userPassword) {
         return apiInterface
-                .authUser(new LoginRequest(username, userPassword), Const.RESPONSE_TYPE)
+                .authUser(userEmail, userPassword, Const.RESPONSE_TYPE)
                 .compose(applySchedulers());
     }
 

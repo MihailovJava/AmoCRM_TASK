@@ -37,13 +37,14 @@ public class LoginPresenter extends BasePresenter{
                 .subscribeOn(ioThread)
                 .observeOn(uiThread)
                 .subscribe(loginResponse -> {
+                    loginView.stopProgressBar();
+                    Log.d("Logged in?", loginResponse.getLoginResponseInfo().isAuthCompleted() + "");
                     loginView.startMainActivity();
 
                 }, throwable -> {
+                    loginView.stopProgressBar();
                     loginView.showError(throwable);
                     throwable.printStackTrace();
-                }, () -> {
-                    loginView.stopProgressBar();
                 });
         addSubscription(subscription);
     }
