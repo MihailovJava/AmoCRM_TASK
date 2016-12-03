@@ -9,7 +9,7 @@ public class AccountInfoResponse {
     @Expose
     private String name;
 
-    @SerializedName("name")
+    @SerializedName("subdomain")
     @Expose
     private String domain;
 

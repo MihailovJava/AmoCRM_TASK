@@ -4,4 +4,7 @@
     <string name="password_hint_string">Пароль</string>
     <string name="login_hint_string">Логин</string>
     <string name="amocrm_logo">AmoCRM logo</string>
+    <string name="login_progressbar_message">Авторизация..</string>
+    <string name="wrong_email_input_error">Неверный email!</string>
+    <string name="wrong_password_input_error">Неверный пароль!</string>
 </resources>
