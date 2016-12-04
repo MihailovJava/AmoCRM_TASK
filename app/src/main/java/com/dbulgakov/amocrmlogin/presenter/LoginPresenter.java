@@ -1,11 +1,20 @@
 package com.dbulgakov.amocrmlogin.presenter;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerFuture;
+import android.os.AsyncTask;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.dbulgakov.amocrmlogin.model.DTO.LoginResponse;
 import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
 import com.dbulgakov.amocrmlogin.view.LoginView;
+import com.dbulgakov.amocrmlogin.view.activities.LoginActivity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,6 +34,9 @@ public class LoginPresenter extends BasePresenter{
     Scheduler ioThread;
 
     @Inject
+    AccountManager accountManager;
+
+    @Inject
     public LoginPresenter(LoginView loginView) {
         super();
         App.getComponent().inject(this);
@@ -38,8 +50,12 @@ public class LoginPresenter extends BasePresenter{
                 .observeOn(uiThread)
                 .subscribe(loginResponse -> {
                     loginView.stopProgressBar();
-                    Log.d("Logged in?", loginResponse.getLoginResponseInfo().isAuthCompleted() + "");
-                    loginView.startMainActivity();
+                    if (loginResponse.getLoginResponseInfo().isAuthCompleted()) {
+                        saveCredentials(userEmail, loginResponse);
+                        loginView.startMainActivity();
+                    } else {
+                        throw new IllegalArgumentException("wrong username or password");
+                    }
 
                 }, throwable -> {
                     loginView.stopProgressBar();
@@ -55,5 +71,15 @@ public class LoginPresenter extends BasePresenter{
 
     public boolean isPasswordValid(String password) {
         return !TextUtils.isEmpty(password) && password.length() >= Const.MIN_PASS_LENGTH;
+    }
+
+    @SuppressWarnings("MissingPermission")
+    private void saveCredentials(String userEmail, LoginResponse loginResponse) {
+        Account account = new Account(userEmail, Const.ACCOUNT_TYPE);
+        accountManager.addAccountExplicitly(account, loginResponse.getLoginResponseInfo().getApiKey(), null);
+        accountManager.setUserData(account, Const.USER_ACCOUNT_DOMAIN_KEY,
+                loginResponse.getLoginResponseInfo().getAccountsList().get(0).getDomainName());
+        // believe that there is one account
+        accountManager.setAuthToken(account, AccountManager.KEY_AUTHTOKEN, loginResponse.getLoginResponseInfo().getApiKey());
     }
 }

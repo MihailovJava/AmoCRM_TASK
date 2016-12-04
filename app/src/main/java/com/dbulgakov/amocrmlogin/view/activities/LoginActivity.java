@@ -1,5 +1,7 @@
 package com.dbulgakov.amocrmlogin.view.activities;
 
+import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity implements LoginView{
+public class LoginActivity extends AccountAuthenticatorActivity implements LoginView{
 
     private ProgressDialog progressDialog;
     private ViewComponent viewComponent;
