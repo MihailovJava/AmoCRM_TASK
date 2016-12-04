@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.text.TextUtils;
 
 import com.dbulgakov.amocrmlogin.model.DTO.LoginResponse;
+import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
 import com.dbulgakov.amocrmlogin.view.LoginView;
 
@@ -27,6 +28,11 @@ public class LoginPresenter extends BasePresenter{
 
     @Inject
     AccountManager accountManager;
+
+    public void onCreate(LoginView loginView) {
+        this.loginView = loginView;
+        App.getComponent().inject(this);
+    }
 
     public void onLoginButtonClick(String userEmail, String userPassword) {
         loginView.startProgressBar();
