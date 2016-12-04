@@ -1,12 +1,11 @@
 package com.dbulgakov.amocrmlogin.view.activities;
 
 import android.accounts.AccountAuthenticatorActivity;
-import android.accounts.AccountManager;
 import android.app.ProgressDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.dbulgakov.amocrmlogin.R;
 import com.dbulgakov.amocrmlogin.other.di.view.DaggerViewComponent;
@@ -14,6 +13,8 @@ import com.dbulgakov.amocrmlogin.other.di.view.ViewComponent;
 import com.dbulgakov.amocrmlogin.other.di.view.ViewDynamicModule;
 import com.dbulgakov.amocrmlogin.presenter.LoginPresenter;
 import com.dbulgakov.amocrmlogin.view.LoginView;
+
+import java.net.UnknownHostException;
 
 import javax.inject.Inject;
 
@@ -80,7 +81,14 @@ public class LoginActivity extends AccountAuthenticatorActivity implements Login
 
     @Override
     public void showError(Throwable throwable) {
-
+        if (throwable instanceof IllegalArgumentException) {
+            Toast.makeText(this, R.string.wrong_login_or_password_error_message, Toast.LENGTH_SHORT).show();
+        }
+        else if (throwable instanceof UnknownHostException){
+            Toast.makeText(this, R.string.no_internet_error_message, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.unknown_error_error_message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     public boolean validateUserInput(){

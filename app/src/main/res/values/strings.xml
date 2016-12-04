@@ -8,4 +8,7 @@
     <string name="wrong_email_input_error">Неверный email!</string>
     <string name="wrong_password_input_error">Неверный пароль!</string>
     <string name="amocrm_account_string">amoCRM</string>
+    <string name="wrong_login_or_password_error_message">Неверный логин или пароль</string>
+    <string name="no_internet_error_message">Проверьте свое подключение к сети</string>
+    <string name="unknown_error_error_message">Неизвестная ошибка</string>
 </resources>
