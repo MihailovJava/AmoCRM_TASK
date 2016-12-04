@@ -34,10 +34,18 @@ public class MainPresenter extends BasePresenter {
         this.mainView = mainView;
     }
 
-    @SuppressWarnings("MissingPermission")
     public void checkAuth() {
-        if (accountManager.getAccountsByType(Const.ACCOUNT_TYPE).length < 1) {
-            mainView.startLoginActivity();
+        if (!hasLoggedAccount()) {
+            startLoginActivity();
         }
+    }
+
+    @SuppressWarnings("MissingPermission")
+    private boolean hasLoggedAccount(){
+        return !(accountManager.getAccountsByType(Const.ACCOUNT_TYPE).length < 1);
+    }
+
+    private void startLoginActivity(){
+        mainView.startLoginActivity();
     }
 }
