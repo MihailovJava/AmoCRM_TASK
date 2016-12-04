@@ -8,4 +8,6 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorPrimaryDarker">#000000</color>
     <color name="colorBlue">#008ED7</color>
+    <color name="colorLightGray">#F9F9F9</color>
+    <color name="colorGreen">#01bf2b</color>
 </resources>

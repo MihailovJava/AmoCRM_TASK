@@ -59,6 +59,7 @@ public class MainPresenter extends BasePresenter {
 
     @SuppressWarnings("MissingPermission")
     public void getUserLeads() {
+        mainView.startProgressBar();
         if (credentialsSet()) {
             getLeadsDirectly();
         } else {
@@ -84,12 +85,23 @@ public class MainPresenter extends BasePresenter {
                     userEmail = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
                     userApiKey = bundle.getString(AccountManager.KEY_AUTHTOKEN);
                     getLeadsDirectly();
-                }, Throwable::printStackTrace);
+                }, (throwable) -> {
+                    mainView.stopProgressBar();
+                    throwable.printStackTrace();
+                });
         addSubscription(subscription);
     }
 
     private void getLeadsDirectly(){
-        model.getLeads(userEmail, userApiKey, userDomain);
+        model.getLeads(userEmail, userApiKey, userDomain)
+                .subscribeOn(ioThread)
+                .observeOn(uiThread)
+                .subscribe(bundle -> {
+                    mainView.stopProgressBar();
+                }, (throwable) -> {
+                    mainView.stopProgressBar();
+                    throwable.printStackTrace();
+                });
     }
 
 

@@ -38,10 +38,10 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
                     .build();
         }
         viewComponent.inject(this);
-        mainPresenter.checkAuth();
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         swipeRefreshLayout.setOnRefreshListener(this);
+        mainPresenter.checkAuth();
     }
 
     @Override
