@@ -1,21 +1,22 @@
 package com.dbulgakov.amocrmlogin.other.di.view;
 
 import com.dbulgakov.amocrmlogin.presenter.LoginPresenter;
-import com.dbulgakov.amocrmlogin.view.LoginView;
+import com.dbulgakov.amocrmlogin.presenter.MainPresenter;
+import com.dbulgakov.amocrmlogin.view.MainView;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class ViewDynamicModule {
-    private final LoginView view;
+    private final MainView view;
 
-    public ViewDynamicModule(LoginView view) {
+    public ViewDynamicModule(MainView view) {
         this.view = view;
     }
 
     @Provides
-    LoginPresenter provideMainPresenter() {
-        return new LoginPresenter(view);
+    MainPresenter provideMainPresenter() {
+        return new MainPresenter(view);
     }
 }

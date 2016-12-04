@@ -2,19 +2,11 @@ package com.dbulgakov.amocrmlogin.presenter;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.dbulgakov.amocrmlogin.model.DTO.LoginResponse;
-import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
 import com.dbulgakov.amocrmlogin.view.LoginView;
-import com.dbulgakov.amocrmlogin.view.activities.LoginActivity;
-
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -35,13 +27,6 @@ public class LoginPresenter extends BasePresenter{
 
     @Inject
     AccountManager accountManager;
-
-    @Inject
-    public LoginPresenter(LoginView loginView) {
-        super();
-        App.getComponent().inject(this);
-        this.loginView = loginView;
-    }
 
     public void onLoginButtonClick(String userEmail, String userPassword) {
         loginView.startProgressBar();

@@ -8,9 +8,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dbulgakov.amocrmlogin.R;
-import com.dbulgakov.amocrmlogin.other.di.view.DaggerViewComponent;
-import com.dbulgakov.amocrmlogin.other.di.view.ViewComponent;
-import com.dbulgakov.amocrmlogin.other.di.view.ViewDynamicModule;
+import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.presenter.LoginPresenter;
 import com.dbulgakov.amocrmlogin.view.LoginView;
 
@@ -25,7 +23,6 @@ import butterknife.OnClick;
 public class LoginActivity extends AccountAuthenticatorActivity implements LoginView{
 
     private ProgressDialog progressDialog;
-    private ViewComponent viewComponent;
 
     @Inject
     protected LoginPresenter loginPresenter;
@@ -41,15 +38,9 @@ public class LoginActivity extends AccountAuthenticatorActivity implements Login
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        App.getComponent().inject(this);
         setContentView(R.layout.activity_login);
         initProgressBar();
-
-        if (viewComponent == null) {
-            viewComponent = DaggerViewComponent.builder()
-                    .viewDynamicModule(new ViewDynamicModule(this))
-                    .build();
-        }
-        viewComponent.inject(this);
 
         ButterKnife.bind(this);
     }

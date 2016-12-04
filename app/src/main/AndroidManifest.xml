@@ -9,22 +9,18 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".other.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:name=".other.App"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.activities.LoginActivity"
+        <activity
+            android:name=".view.activities.LoginActivity"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dark">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.Dark"></activity>
 
         <service
             android:name=".other.accmanager.AmoCRMAuthenticatorService"
@@ -32,9 +28,21 @@
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
+
             <meta-data
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/amocrm_authenticator" />
         </service>
+
+        <activity
+            android:name=".view.activities.MainActivity"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
+
 </manifest>
