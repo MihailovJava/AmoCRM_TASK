@@ -1,5 +1,8 @@
 package com.dbulgakov.amocrmlogin.model;
 
+import android.util.Log;
+
+import com.dbulgakov.amocrmlogin.model.DTO.Leads.LeadsResponse;
 import com.dbulgakov.amocrmlogin.model.DTO.Login.LoginResponse;
 import com.dbulgakov.amocrmlogin.model.api.ApiInterface;
 import com.dbulgakov.amocrmlogin.other.App;
@@ -37,6 +40,17 @@ public class ModelImpl implements Model {
         return apiInterface
                 .authUser(userEmail, userPassword, Const.RESPONSE_TYPE)
                 .compose(applySchedulers());
+    }
+
+    @Override
+    public Observable<LeadsResponse> getLeads(String userEmail, String userApiKey, String userDomain) {
+        return apiInterface
+                .getLeads(createGetLeadsUrl(userEmail, userApiKey, userDomain))
+                .compose(applySchedulers());
+    }
+
+    private String createGetLeadsUrl(String userEmail, String userApiKey, String userDomain) {
+        return String.format(Const.GET_LEADS_STRING, userDomain, userEmail, userApiKey);
     }
 
     @SuppressWarnings("unchecked")

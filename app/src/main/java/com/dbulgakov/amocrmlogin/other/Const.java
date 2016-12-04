@@ -8,4 +8,5 @@ public interface Const {
     String ACCOUNT_TYPE = "com.dbulgakov";
     String USER_ACCOUNT_DOMAIN_KEY = "USER_ACCOUNT_DOMAIN_KEY";
     int MIN_PASS_LENGTH = 6;
+    String GET_LEADS_STRING = "https://%s.amocrm.ru/private/api/v2/json/leads/list?type=json&USER_LOGIN=%s&USER_HASH=%s";
 }

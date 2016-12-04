@@ -1,10 +1,6 @@
 package com.dbulgakov.amocrmlogin.presenter;
 
-import android.accounts.Account;
 import android.accounts.AccountManager;
-import android.accounts.AccountManagerFuture;
-import android.os.AsyncTask;
-import android.os.Bundle;
 import android.util.Log;
 
 import com.dbulgakov.amocrmlogin.other.App;
@@ -14,11 +10,14 @@ import com.dbulgakov.amocrmlogin.view.MainView;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import rx.Observable;
 import rx.Scheduler;
+import rx.Subscription;
 
 public class MainPresenter extends BasePresenter {
 
     private final MainView mainView;
+
     private String userDomain;
     private String userEmail;
     private String userApiKey;
@@ -45,7 +44,7 @@ public class MainPresenter extends BasePresenter {
         if (!hasLoggedAccount()) {
             startLoginActivity();
         } else {
-            getUserCredentials();
+            getUserLeads();
         }
     }
 
@@ -59,23 +58,42 @@ public class MainPresenter extends BasePresenter {
     }
 
     @SuppressWarnings("MissingPermission")
-    private void getUserCredentials() {
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    Account[] accs = accountManager.getAccountsByType(Const.ACCOUNT_TYPE);
-                    Bundle bnd = accountManager.getAuthToken(accs[0], AccountManager.KEY_AUTHTOKEN, null, null, null, null).getResult();
-                    userDomain = accountManager.getUserData(accs[0], Const.USER_ACCOUNT_DOMAIN_KEY);
-                    userApiKey = bnd.getString(AccountManager.KEY_AUTHTOKEN);
-                    userEmail = bnd.getString(AccountManager.KEY_ACCOUNT_NAME);
-                } catch (Exception e) {
-                    Log.e("Error", e.getMessage());
-                }
+    private void getUserLeads() {
+        if (credentialsSet()) {
+            getLeadsDirectly();
+        } else {
+            getLeadsAndCredentials();
+        }
+    }
 
-                return null;
-            }
-        };
-        task.execute();
+    @SuppressWarnings("MissingPermission")
+    private void getLeadsAndCredentials() {
+        Subscription subscription = Observable.just(accountManager.getAccountsByType(Const.ACCOUNT_TYPE))
+                .map(accs -> {
+                    try {
+                        userDomain = accountManager.getUserData(accs[0], Const.USER_ACCOUNT_DOMAIN_KEY);
+                        return accountManager.getAuthToken(accs[0], AccountManager.KEY_AUTHTOKEN, null, null, null, null).getResult();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                })
+                .subscribeOn(ioThread)
+                .observeOn(uiThread)
+                .subscribe(bundle -> {
+                    userEmail = bundle.getString(AccountManager.KEY_ACCOUNT_NAME);
+                    userApiKey = bundle.getString(AccountManager.KEY_AUTHTOKEN);
+                    getLeadsDirectly();
+                }, Throwable::printStackTrace);
+        addSubscription(subscription);
+    }
+
+    private void getLeadsDirectly(){
+        model.getLeads(userEmail, userApiKey, userDomain);
+    }
+
+
+    private boolean credentialsSet(){
+        return userEmail != null && userApiKey != null && userDomain != null;
     }
 }
