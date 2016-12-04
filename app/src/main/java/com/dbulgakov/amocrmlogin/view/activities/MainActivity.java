@@ -2,7 +2,9 @@ package com.dbulgakov.amocrmlogin.view.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.dbulgakov.amocrmlogin.R;
 import com.dbulgakov.amocrmlogin.other.di.view.DaggerViewComponent;
@@ -14,12 +16,18 @@ import com.dbulgakov.amocrmlogin.view.MainView;
 
 import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity implements MainView{
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class MainActivity extends AppCompatActivity implements MainView, SwipeRefreshLayout.OnRefreshListener{
 
     private ViewComponent viewComponent;
 
     @Inject
     protected MainPresenter mainPresenter;
+
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +40,8 @@ public class MainActivity extends AppCompatActivity implements MainView{
         viewComponent.inject(this);
         mainPresenter.checkAuth();
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     @Override
@@ -44,5 +54,20 @@ public class MainActivity extends AppCompatActivity implements MainView{
     @Override
     public void showError(Throwable throwable) {
 
+    }
+
+    @Override
+    public void startProgressBar() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void stopProgressBar() {
+        swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        mainPresenter.getUserLeads();
     }
 }

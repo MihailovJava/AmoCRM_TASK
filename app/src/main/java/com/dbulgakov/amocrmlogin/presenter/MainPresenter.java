@@ -58,7 +58,7 @@ public class MainPresenter extends BasePresenter {
     }
 
     @SuppressWarnings("MissingPermission")
-    private void getUserLeads() {
+    public void getUserLeads() {
         if (credentialsSet()) {
             getLeadsDirectly();
         } else {
