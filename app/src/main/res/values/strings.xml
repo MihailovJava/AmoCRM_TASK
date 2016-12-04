@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AmoCRM Login</string>
+    <string name="app_name">amoCRM</string>
     <string name="login_button_string">Войти</string>
     <string name="password_hint_string">Пароль</string>
     <string name="login_hint_string">Логин</string>
