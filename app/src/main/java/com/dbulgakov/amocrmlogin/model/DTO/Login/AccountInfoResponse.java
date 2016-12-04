@@ -1,4 +1,4 @@
-package com.dbulgakov.amocrmlogin.model.DTO;
+package com.dbulgakov.amocrmlogin.model.DTO.Login;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

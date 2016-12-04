@@ -4,7 +4,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.text.TextUtils;
 
-import com.dbulgakov.amocrmlogin.model.DTO.LoginResponse;
+import com.dbulgakov.amocrmlogin.model.DTO.Login.LoginResponse;
 import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
 import com.dbulgakov.amocrmlogin.view.LoginView;

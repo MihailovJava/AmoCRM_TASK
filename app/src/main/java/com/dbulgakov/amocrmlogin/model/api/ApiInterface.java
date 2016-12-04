@@ -1,5 +1,5 @@
 package com.dbulgakov.amocrmlogin.model.api;
-import com.dbulgakov.amocrmlogin.model.DTO.LoginResponse;
+import com.dbulgakov.amocrmlogin.model.DTO.Login.LoginResponse;
 
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

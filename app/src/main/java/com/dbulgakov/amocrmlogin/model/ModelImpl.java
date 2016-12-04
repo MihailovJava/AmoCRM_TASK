@@ -1,6 +1,6 @@
 package com.dbulgakov.amocrmlogin.model;
 
-import com.dbulgakov.amocrmlogin.model.DTO.LoginResponse;
+import com.dbulgakov.amocrmlogin.model.DTO.Login.LoginResponse;
 import com.dbulgakov.amocrmlogin.model.api.ApiInterface;
 import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
