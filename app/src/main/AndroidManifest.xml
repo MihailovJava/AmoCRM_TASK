@@ -20,7 +20,7 @@
             android:excludeFromRecents="true"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Dark"></activity>
+            android:theme="@style/AppTheme.Dark"/>
 
         <service
             android:name=".other.accmanager.AmoCRMAuthenticatorService"
@@ -39,7 +39,7 @@
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                <data android:name="android.content.Intent.FLAG_ACTIVITY_NO_ANIMATION" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

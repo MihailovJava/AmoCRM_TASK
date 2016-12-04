@@ -22,7 +22,6 @@ public class PresenterModule {
     }
 
     @Provides
-    @Singleton
     AccountManager provideAccountManagerRepository() {
         return AccountManager.get(App.getContext());
     }

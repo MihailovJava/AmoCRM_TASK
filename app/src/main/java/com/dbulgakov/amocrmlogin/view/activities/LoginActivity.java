@@ -2,6 +2,7 @@ package com.dbulgakov.amocrmlogin.view.activities;
 
 import android.accounts.AccountAuthenticatorActivity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.EditText;
@@ -58,7 +59,9 @@ public class LoginActivity extends AccountAuthenticatorActivity implements Login
 
     @Override
     public void startMainActivity() {
-        Log.d("we are", "here");
+        finish();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     @Override
