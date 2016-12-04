@@ -39,6 +39,8 @@ public class LoginActivity extends AccountAuthenticatorActivity implements Login
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         App.getComponent().inject(this);
+        loginPresenter.onCreate(this);
+
         setContentView(R.layout.activity_login);
         initProgressBar();
 
