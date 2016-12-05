@@ -7,4 +7,5 @@ import java.util.List;
 public interface MainView extends View {
     void startLoginActivity();
     void addLeads(List<Lead> leadList);
+    List<Lead> getLeads();
 }

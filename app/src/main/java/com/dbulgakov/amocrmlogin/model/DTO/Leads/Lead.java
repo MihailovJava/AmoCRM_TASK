@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Lead implements Comparable<Lead>{
+import java.io.Serializable;
+
+public class Lead implements Comparable<Lead>, Serializable{
 
     @SerializedName("name")
     @Expose

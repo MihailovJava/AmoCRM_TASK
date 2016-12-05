@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import com.dbulgakov.amocrmlogin.R;
 import com.dbulgakov.amocrmlogin.model.DTO.Leads.Lead;
@@ -18,6 +19,7 @@ import com.dbulgakov.amocrmlogin.presenter.MainPresenter;
 import com.dbulgakov.amocrmlogin.view.MainView;
 import com.dbulgakov.amocrmlogin.view.adapters.LeadListAdapter;
 
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +60,7 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         ButterKnife.bind(this);
         swipeRefreshLayout.setOnRefreshListener(this);
         initRecyclerView();
-        mainPresenter.checkAuth();
+        mainPresenter.onCreate(savedInstanceState);
     }
 
     @Override
@@ -74,8 +76,17 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
     }
 
     @Override
-    public void showError(Throwable throwable) {
+    public List<Lead> getLeads() {
+        return leadListAdapter.getLeadList();
+    }
 
+    @Override
+    public void showError(Throwable throwable) {
+        if (throwable instanceof UnknownHostException){
+            Toast.makeText(this, R.string.no_internet_error_message, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, R.string.unknown_error_error_message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -98,5 +109,11 @@ public class MainActivity extends AppCompatActivity implements MainView, SwipeRe
         leadsRecyclerView.setLayoutManager(llm);
         leadListAdapter = new LeadListAdapter(new ArrayList<>());
         leadsRecyclerView.setAdapter(leadListAdapter);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mainPresenter.onSaveInstanceState(outState);
     }
 }

@@ -1,12 +1,16 @@
 package com.dbulgakov.amocrmlogin.presenter;
 
 import android.accounts.AccountManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.dbulgakov.amocrmlogin.model.DTO.Leads.Lead;
 import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
 import com.dbulgakov.amocrmlogin.view.MainView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -22,6 +26,7 @@ public class MainPresenter extends BasePresenter {
     private String userDomain;
     private String userEmail;
     private String userApiKey;
+    private final static String SAVE_INSTANCE_STATE_KEY = "SAVE_INSTANCE_STATE_KEY";
 
     @Inject
     @Named(Const.UI_THREAD)
@@ -48,6 +53,23 @@ public class MainPresenter extends BasePresenter {
             getUserLeads();
         }
     }
+
+    public void onSaveInstanceState(Bundle bundle){
+        List<Lead> leadList = mainView.getLeads();
+        if (leadList != null && !leadList.isEmpty()) {
+            bundle.putSerializable(SAVE_INSTANCE_STATE_KEY, new ArrayList<>(leadList));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null && savedInstanceState.getSerializable(SAVE_INSTANCE_STATE_KEY) != null) {
+            mainView.addLeads((List<Lead>) savedInstanceState.getSerializable(SAVE_INSTANCE_STATE_KEY));
+        } else {
+            checkAuth();
+        }
+    }
+
 
     @SuppressWarnings("MissingPermission")
     private boolean hasLoggedAccount(){
@@ -89,6 +111,7 @@ public class MainPresenter extends BasePresenter {
                 }, (throwable) -> {
                     mainView.stopProgressBar();
                     throwable.printStackTrace();
+                    mainView.showError(throwable);
                 });
         addSubscription(subscription);
     }
@@ -106,6 +129,7 @@ public class MainPresenter extends BasePresenter {
                 }, (throwable) -> {
                     mainView.stopProgressBar();
                     throwable.printStackTrace();
+                    mainView.showError(throwable);
                 });
     }
 
