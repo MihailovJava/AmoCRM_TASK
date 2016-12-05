@@ -42,8 +42,12 @@
                 android:id="@+id/lead_date_textview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingLeft="@dimen/lead_item_textview_padding"
+                android:paddingRight="@dimen/lead_item_textview_padding"
+                android:paddingEnd="@dimen/lead_item_textview_padding"
+                android:paddingStart="@dimen/lead_item_textview_padding"
                 android:layout_weight="2"
-                android:gravity="center"
+                android:gravity="center_vertical|end"
                 android:textSize="16sp"
                 android:textStyle="italic"
                 tools:text="21/10/2016"/>
