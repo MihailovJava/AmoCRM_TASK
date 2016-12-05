@@ -50,13 +50,17 @@ public class LeadListAdapter extends RecyclerView.Adapter<LeadListAdapter.ViewHo
         notifyDataSetChanged();
     }
 
+    public List<Lead> getLeadList(){
+        return leadList;
+    }
+
     private void setTextIntoTextViews(Lead lead, ViewHolder holder){
         holder.leadNameTextView.setText(lead.getName());
         holder.leadPriceTextView.setText(String.valueOf(lead.getPrice()));
         holder.leadDateTextView.setText(convertSecondsIntoDateString(lead.getDateSeconds()));
     }
 
-    private String convertSecondsIntoDateString(int seconds){
+    private String convertSecondsIntoDateString(long seconds){
         Date date = new Date(seconds * 1000);
         return dateFormater.format(date);
     }

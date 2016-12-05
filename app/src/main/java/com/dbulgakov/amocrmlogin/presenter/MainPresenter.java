@@ -3,6 +3,7 @@ package com.dbulgakov.amocrmlogin.presenter;
 import android.accounts.AccountManager;
 import android.util.Log;
 
+import com.dbulgakov.amocrmlogin.model.DTO.Leads.Lead;
 import com.dbulgakov.amocrmlogin.other.App;
 import com.dbulgakov.amocrmlogin.other.Const;
 import com.dbulgakov.amocrmlogin.view.MainView;
@@ -94,11 +95,14 @@ public class MainPresenter extends BasePresenter {
 
     private void getLeadsDirectly(){
         model.getLeads(userEmail, userApiKey, userDomain)
+                .map(leadsResponse -> leadsResponse.getLeadsInfoResponse().getLeadList())
+                .flatMap(Observable::from)
+                .toSortedList(Lead::compareTo)
                 .subscribeOn(ioThread)
                 .observeOn(uiThread)
                 .subscribe(leads -> {
                     mainView.stopProgressBar();
-                    mainView.addLeads(leads.getLeadsInfoResponse().getLeadList());
+                    mainView.addLeads(leads);
                 }, (throwable) -> {
                     mainView.stopProgressBar();
                     throwable.printStackTrace();

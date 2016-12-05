@@ -1,9 +1,11 @@
 package com.dbulgakov.amocrmlogin.model.DTO.Leads;
 
+import android.support.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Lead {
+public class Lead implements Comparable<Lead>{
 
     @SerializedName("name")
     @Expose
@@ -11,21 +13,26 @@ public class Lead {
 
     @SerializedName("date_create")
     @Expose
-    private int dateCreate;
+    private long dateCreate;
 
     @SerializedName("price")
     @Expose
-    private int price;
+    private long price;
 
     public String getName() {
         return name;
     }
 
-    public int getDateSeconds() {
+    public long getDateSeconds() {
         return dateCreate;
     }
 
-    public int getPrice() {
+    public long getPrice() {
         return price;
+    }
+
+    @Override
+    public int compareTo(@NonNull Lead lead) {
+        return Long.valueOf(dateCreate).compareTo(lead.getDateSeconds());
     }
 }
