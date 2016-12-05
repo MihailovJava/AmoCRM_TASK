@@ -96,8 +96,9 @@ public class MainPresenter extends BasePresenter {
         model.getLeads(userEmail, userApiKey, userDomain)
                 .subscribeOn(ioThread)
                 .observeOn(uiThread)
-                .subscribe(bundle -> {
+                .subscribe(leads -> {
                     mainView.stopProgressBar();
+                    mainView.addLeads(leads.getLeadsInfoResponse().getLeadList());
                 }, (throwable) -> {
                     mainView.stopProgressBar();
                     throwable.printStackTrace();
