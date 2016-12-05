@@ -9,16 +9,22 @@ import android.widget.TextView;
 import com.dbulgakov.amocrmlogin.R;
 import com.dbulgakov.amocrmlogin.model.DTO.Leads.Lead;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LeadListAdapter extends RecyclerView.Adapter<LeadListAdapter.ViewHolder>{
     private List<Lead> leadList;
+    private DateFormat dateFormater;
 
     public LeadListAdapter(List<Lead> leadList) {
         this.leadList = leadList;
+        dateFormater = new SimpleDateFormat("dd/dd/yyyy", Locale.ENGLISH);
     }
 
 
@@ -47,7 +53,12 @@ public class LeadListAdapter extends RecyclerView.Adapter<LeadListAdapter.ViewHo
     private void setTextIntoTextViews(Lead lead, ViewHolder holder){
         holder.leadNameTextView.setText(lead.getName());
         holder.leadPriceTextView.setText(String.valueOf(lead.getPrice()));
-        holder.leadDateTextView.setText(String.valueOf(lead.getDateCreate()));
+        holder.leadDateTextView.setText(convertSecondsIntoDateString(lead.getDateSeconds()));
+    }
+
+    private String convertSecondsIntoDateString(int seconds){
+        Date date = new Date(seconds * 1000);
+        return dateFormater.format(date);
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

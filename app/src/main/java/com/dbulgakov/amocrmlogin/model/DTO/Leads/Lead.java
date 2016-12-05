@@ -21,7 +21,7 @@ public class Lead {
         return name;
     }
 
-    public int getDateCreate() {
+    public int getDateSeconds() {
         return dateCreate;
     }
 
